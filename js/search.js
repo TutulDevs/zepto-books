@@ -1,17 +1,17 @@
 function setupSearch() {
-  const searchInput = document.getElementById("search-input");
-  searchInput.addEventListener("input", handleSearch);
+  const searchForm = document.getElementById("search-form");
+  searchForm.addEventListener("submit", handleSearchSubmit);
 }
-
-
 
 function setupGenreFilter() {
   const genreFilter = document.getElementById("genre-filter");
   genreFilter.addEventListener("change", handleGenreFilter);
 }
 
-function handleGenreFilter() {
-  // Implement genre filter logic
-}
+function handleSearchSubmit(event) {
+  event.preventDefault();
+  const searchInput = document.getElementById("search-input");
+  const searchTerm = searchInput?.value?.trim()?.toLowerCase() ?? "";
 
-// Add more search and filter related functions as needed
+  handleSearch(searchTerm);
+}

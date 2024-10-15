@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <!-- header -->
     <header>
       <nav>
         <ul>
@@ -19,11 +20,22 @@
     <main>
       <!-- search -->
       <div id="search-container">
-        <input type="search" id="search-input" placeholder="Search by title" />
+        <form id="search-form" class="search-form">
+          <input type="text" id="search-input" placeholder="Search by title" />
+          <button type="submit" aria-label="Search">🔍</button>
+        </form>
 
         <select id="genre-filter">
           <option value="">All Genres</option>
-          <!-- Genres will be populated dynamically -->
+          <option value="Fiction">Fiction</option>
+          <option value="Literature">Literature</option>
+          <option value="Gothic Fiction">Gothic Fiction</option>
+          <option value="Science Fiction by Women">
+            Science Fiction by Women
+          </option>
+          <option value="Poetry">Poetry</option>
+          <option value="Humour">Humour</option>
+          <option value="Travel & Geography">Travel & Geography</option>
         </select>
       </div>
 
@@ -34,6 +46,7 @@
       <div id="pagination"></div>
     </main>
 
+    <!-- scripts -->
     <script src="mock/book_list.js"></script>
     <script src="js/api.js"></script>
     <script src="js/search.js"></script>

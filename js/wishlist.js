@@ -1,6 +1,14 @@
-// Wishlist functionality
 function toggleWishlist(bookId) {
-  // Implement wishlist toggle logic
+  let wishList = getWishlist();
+
+  if (!wishList.includes(bookId)) {
+    wishList.push(bookId);
+  } else {
+    wishList = wishList.filter((id) => id !== bookId);
+  }
+
+  saveWishlist(wishList);
+  window.location.reload();
 }
 
 function saveWishlist(wishlist) {
@@ -11,4 +19,7 @@ function getWishlist() {
   return JSON.parse(localStorage.getItem("wishlist")) || [];
 }
 
-// Add more wishlist related functions as needed
+function checkIdInWishlist(bookId) {
+  const wishList = getWishlist();
+  return wishList.includes(bookId);
+}

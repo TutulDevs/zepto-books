@@ -11,7 +11,7 @@
       <nav>
         <ul>
           <li><a href="index.html" class="home">Zepto Books</a></li>
-          <li><a href="wishlist.html">Wishlist</a></li>
+          <li><a href="wishlist.html" class="active">Wishlist</a></li>
         </ul>
       </nav>
     </header>
@@ -20,6 +20,10 @@
       <div id="wishlist-container"></div>
     </main>
 
+    <script src="js/api.js"></script>
     <script src="js/wishlist.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", fetchWishlistBooks);
+    </script>
   </body>
 </html>

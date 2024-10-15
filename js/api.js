@@ -1,6 +1,5 @@
 const API_URL = "https://gutendex.com/books";
 
-// API related functions
 async function fetchBooks(page = 1) {
   try {
     const response = await fetch(`${API_URL}?page=${page}`);
@@ -16,11 +15,21 @@ async function fetchBooks(page = 1) {
   }
 }
 
-function displayBooks(books) {
-  const booksContainer = document.getElementById("books-container");
+function displayBooks(books, container) {
+  const booksContainer =
+    container ?? document.getElementById("books-container");
   booksContainer.innerHTML = ""; // Clear existing content
 
+  if (books.length == 0) {
+    booksContainer.className = "error";
+    booksContainer.innerHTML = "No books found.";
+    return;
+  }
+
   books.forEach((book) => {
+    const isInWishlist = checkIdInWishlist(book.id);
+    const genre = book.bookshelves.join(", ") ?? "Not specified";
+
     const bookElement = document.createElement("div");
     bookElement.className = "book";
     bookElement.innerHTML = `
@@ -36,34 +45,66 @@ function displayBooks(books) {
       book.title
     }</a>
         </h3>
-        <p class="author">By: ${book.authors
-          .map((author) => author.name)
-          .join(", ")}</p>
-        <p class="genre">Genre: ${
-          book.bookshelves.join(", ") || "Not specified"
-        }</p>
-        <p class="book-id">ID: ${book.id}</p>
+
+        <p class="author">
+          By: ${book.authors.map((author) => author.name).join(", ")}
+        </p>
+
+        <p class="genre">
+          Genre: ${
+            genre?.length < 100
+              ? genre
+              : genre.substring(0, 100) +
+                "..." +
+                ` <a href="/book-details.html?id=${book.id}" class="">
+                    Learn More
+                  </a>`
+          }
+        </p>
       </div>
 
-      <button class="wishlist-btn" onclick="addToWishlist(${
-        book.id
-      })">Add to Wishlist</button>
+      
+      <div class="action-wrapper" >
+        <p class="book-id">ID: ${book.id}</p>
+        <button class="wishlist-btn" aria-label="Add/remove wishlist" onclick="toggleWishlist(${
+          book.id
+        })"> ${isInWishlist ? "❤️" : "🤍"}</button>
+      </div>
     `;
     booksContainer.appendChild(bookElement);
   });
 }
 
-async function handleSearch(e) {
+async function handleSearch(value) {
   try {
-    const value = e.target?.value?.trim()?.toLowerCase();
+    const url = !value
+      ? `${API_URL}?page=1`
+      : `${API_URL}?page=1&search=${value}`;
 
-    const response = await fetch(`${API_URL}?search=${value}`);
+    const response = await fetch(url);
     const data = await response.json();
     const booksList = data?.results ?? [];
 
     displayBooks(booksList);
   } catch (error) {
     console.error("Error fetching books search:", error);
+  }
+}
+
+async function handleGenreFilter(e) {
+  try {
+    const value = e.target?.value?.trim()?.toLowerCase();
+    const url = !value
+      ? `${API_URL}?page=1`
+      : `${API_URL}?page=1&topic=${value}`;
+
+    const response = await fetch(url);
+    const data = await response.json();
+    const booksList = data?.results ?? [];
+
+    displayBooks(booksList);
+  } catch (error) {
+    console.error("Error fetching books search on genre:", error);
   }
 }
 
@@ -83,6 +124,8 @@ async function getBookDetails() {
   try {
     const response = await fetch(`${API_URL}/${id}`);
     const book = await response.json();
+
+    if (book.detail) throw new Error(book.detail);
 
     detailsContainer.innerHTML = `
       <div class="book-detail">
@@ -118,9 +161,30 @@ async function getBookDetails() {
       </div>
     `;
   } catch (error) {
-    console.error("Error fetching book details:", error);
+    console.log("Error fetching book details:", error);
     detailsContainer.className = "error";
     detailsContainer.innerHTML =
-      "Error fetching book details. Please try again later.";
+      error ?? "Error fetching book details. Please try again later.";
+  }
+}
+
+async function fetchWishlistBooks() {
+  const container = document.getElementById("wishlist-container");
+
+  try {
+    const wishList = getWishlist();
+
+    if (wishList.length == 0) {
+      displayBooks([], container);
+      return;
+    }
+
+    const response = await fetch(`${API_URL}?ids=${wishList.join()}`);
+    const data = await response.json();
+
+    displayBooks(data?.results ?? [], container);
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    displayBooks([], container);
   }
 }
