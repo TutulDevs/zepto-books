@@ -1,3 +1,19 @@
+:root {
+  --color-white: #fff;
+  --color-black: #000;
+  --color-red: red;
+  --color-light-gray: #f4f4f4;
+  --color-medium-gray: #ddd;
+  --color-dark-gray: #666;
+  --color-darker-gray: #333;
+  --color-primary: #4a91e2;
+  --color-primary-dark: #4a90e2;
+  --color-primary-light: #4a91e2de;
+  --color-link: #0066cc;
+  --color-link-hover: #004499;
+  --color-loader-bg: rgba(250, 128, 114, 0.753);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -11,7 +27,7 @@ body {
 }
 
 .error {
-  color: red;
+  color: var(--color-red);
 }
 
 main {
@@ -19,11 +35,29 @@ main {
   margin: 0 auto;
 }
 
+/* loader starts */
+.loader {
+  position: fixed;
+  top: -1rem;
+  left: 50%;
+  z-index: 3;
+  width: 90%;
+  transform: translate(-50%, 0%);
+  padding: 1rem 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  background: var(--color-loader-bg);
+  border-radius: 1rem;
+  transition: all 0.3s ease;
+}
+/* loader ends */
+
 /* header starts */
 header {
   max-width: 1440px;
   margin: 0 auto;
-  background-color: #f4f4f4;
+  background-color: var(--color-light-gray);
   padding: 1rem 2rem;
   border-radius: 1rem;
   margin-bottom: 1rem;
@@ -43,22 +77,22 @@ nav ul li .home {
 }
 
 nav ul li a {
-  color: #4a91e2de;
+  color: var(--color-primary-light);
   text-decoration: none;
 }
 
 nav ul li a:hover {
-  color: #4a91e2;
+  color: var(--color-primary);
 }
 
 nav ul li a.active {
-  background: #4a91e2de;
-  color: white;
+  background: var(--color-primary-light);
+  color: var(--color-white);
   padding: 0.75rem 1rem;
   border-radius: 0.5rem;
 }
 nav ul li a.active:hover {
-  background: #4a90e2;
+  background: var(--color-primary-dark);
 }
 /* header ends */
 
@@ -76,7 +110,7 @@ nav ul li a.active:hover {
   width: 300px;
   padding: 0rem;
   padding-right: 0.25rem;
-  border: 2px solid #ddd;
+  border: 2px solid var(--color-medium-gray);
   border-radius: 2rem;
   transition: all 0.3s ease;
   overflow: hidden;
@@ -85,7 +119,7 @@ nav ul li a.active:hover {
 }
 
 .search-form:hover {
-  border: 2px solid #4a91e2;
+  border: 2px solid var(--color-primary);
 }
 
 .search-form input {
@@ -96,20 +130,20 @@ nav ul li a.active:hover {
 }
 
 .search-form button {
-  border: 1px solid #4a91e2de;
+  border: 1px solid var(--color-primary-light);
   padding: 0.5rem;
   border: none;
   border-radius: 50%;
   cursor: pointer;
 }
 .search-form button:hover {
-  background: #4a91e2;
+  background: var(--color-primary);
 }
 
 #genre-filter {
   padding: 0.625rem 1rem;
   font-size: 1rem;
-  border: 2px solid #ddd;
+  border: 2px solid var(--color-medium-gray);
   border-radius: 25px;
   outline: none;
   transition: all 0.3s ease;
@@ -117,7 +151,7 @@ nav ul li a.active:hover {
 
 #genre-filter:hover,
 #genre-filter:focus {
-  border-color: #4a90e2;
+  border-color: var(--color-primary-dark);
 }
 
 #genre-filter {
@@ -128,7 +162,7 @@ nav ul li a.active:hover {
   background-repeat: no-repeat;
   background-position: right 10px top 50%;
   background-size: 12px auto;
-  padding-right: 30px;
+  padding-right: 2rem;
 }
 /* search and genre ends */
 
@@ -141,11 +175,11 @@ nav ul li a.active:hover {
 }
 
 .book {
-  border: 1px solid #ddd;
+  border: 1px solid var(--color-medium-gray);
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
-  background-color: #fff;
+  background-color: var(--color-white);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
   display: grid;
@@ -179,7 +213,7 @@ nav ul li a.active:hover {
 .book h3 {
   font-size: 1rem;
   margin-bottom: 0.5rem;
-  color: #333;
+  color: var(--color-darker-gray);
   /* Limit to 2 lines */
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -189,18 +223,18 @@ nav ul li a.active:hover {
 
 .book p {
   font-size: 0.8rem;
-  color: #666;
+  color: var(--color-dark-gray);
   margin-bottom: 0.3rem;
 }
 
 .book .book-title-link {
   text-decoration: none;
-  color: #333;
+  color: var(--color-darker-gray);
 }
 
 .book .book-title-link:hover {
   text-decoration: underline;
-  color: #0066cc;
+  color: var(--color-link);
 }
 
 .book .author {
@@ -236,21 +270,57 @@ nav ul li a.active:hover {
 }
 
 .book .wishlist-btn:hover {
-  border-color: red;
+  border-color: var(--color-red);
 }
 /* books and wishlist ends */
 
 /* pagination starts */
 #pagination {
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }
+
+#pagination button {
+  background-color: transparent;
+  border: 1px solid var(--color-medium-gray);
+  color: var(--color-primary);
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  padding-top: 2px;
+  border-radius: 25rem;
+  transition: all 0.3s ease;
+}
+
+#pagination button:hover:not(:disabled) {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
+
+#pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+#pagination span {
+  margin: 0 1rem;
+  font-size: 0.9rem;
+  color: var(--color-dark-gray);
+}
+/* pagination ends */
 
 /* book details starts */
 #book-details {
   margin: 2rem auto;
   padding: 1.25rem;
-  background-color: #fff;
+  background-color: var(--color-white);
   box-shadow: 0 0 0.75rem rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
 }
@@ -265,6 +335,9 @@ nav ul li a.active:hover {
 }
 
 .book-detail .book-image img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
   border-radius: 0.5rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -275,7 +348,7 @@ nav ul li a.active:hover {
 
 .book-detail .book-title {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-darker-gray);
   margin-bottom: 0.75rem;
 }
 
@@ -284,7 +357,7 @@ nav ul li a.active:hover {
 .book-detail .language,
 .book-detail .download-count {
   margin-bottom: 0.5rem;
-  color: #666;
+  color: var(--color-dark-gray);
 }
 
 .book-detail .author {
@@ -310,13 +383,13 @@ nav ul li a.active:hover {
 }
 
 .book-detail .book-links a {
-  color: #0066cc;
+  color: var(--color-link);
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .book-detail .book-links a:hover {
-  color: #004499;
+  color: var(--color-link-hover);
   text-decoration: underline;
 }
 
